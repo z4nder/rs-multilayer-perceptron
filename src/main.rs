@@ -1,82 +1,63 @@
-use std::{
-    fs,
-    io::{self, Write},
-    path::PathBuf,
-    process::Command,
-};
+mod activations;
+mod backward;
+mod dataset;
+mod layer;
+mod loss;
+mod matrix;
+mod plots;
 
-struct Project {
-    name: String,
-    description: String,
-    dir: PathBuf,
-}
-
-fn parse_field<'a>(toml: &'a str, field: &str) -> Option<&'a str> {
-    toml.lines()
-        .find(|l| l.starts_with(field))
-        .and_then(|l| l.splitn(2, '=').nth(1))
-        .map(|v| v.trim().trim_matches('"'))
-}
-
-fn discover_projects(workspace_root: &PathBuf) -> Vec<Project> {
-    let projects_dir = workspace_root.join("projects");
-
-    let Ok(entries) = fs::read_dir(&projects_dir) else {
-        return vec![];
-    };
-
-    let mut projects: Vec<_> = entries
-        .filter_map(|e| e.ok())
-        .filter(|e| e.path().is_dir())
-        .filter_map(|e| {
-            let cargo_toml = e.path().join("Cargo.toml");
-            let contents = fs::read_to_string(&cargo_toml).ok()?;
-            let name = parse_field(&contents, "name")?.to_string();
-            let description = parse_field(&contents, "description")
-                .unwrap_or("sem descrição")
-                .to_string();
-            Some(Project { name, description, dir: e.path() })
-        })
-        .collect();
-
-    projects.sort_by(|a, b| a.dir.cmp(&b.dir));
-    projects
-}
+use activations::relu;
+use backward::backward;
+use dataset::Dataset;
+use layer::Layer;
+use loss::{mse, mse_grad};
+use matrix::Matrix;
 
 fn main() {
-    let workspace_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let projects = discover_projects(&workspace_root);
+    // Dataset: 2 exemplos, cada um com 3 features (energia, peso, aero)
+    let dataset = Dataset::new(
+        Matrix::new(
+            2,
+            3,
+            vec![
+                10.0, 80.0, 0.30, // exemplo 0
+                20.0, 60.0, 0.25, // exemplo 1
+            ],
+        ),
+        vec![60.0, 80.0], // distâncias reais (targets)
+    );
 
-    if projects.is_empty() {
-        eprintln!("Nenhum projeto encontrado em projects/");
-        return;
-    }
+    println!("inputs  ({}×{}):", dataset.inputs.rows, dataset.inputs.cols);
+    println!("{}", dataset.inputs);
+    println!("targets: {:?}\n", dataset.targets);
 
-    println!("\nia-explore\n");
-    for (i, p) in projects.iter().enumerate() {
-        println!("  {}. {} — {}", i + 1, p.name, p.description);
-    }
-    println!();
-    print!("Escolha: ");
-    io::stdout().flush().unwrap();
+    // Pipeline: 3 features → 4 neurônios (oculta) → 1 neurônio (saída)
+    let camada1 = Layer::new(3, 4);
+    let camada2 = Layer::new(4, 1);
 
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
+    println!("camada1 {}\n", camada1);
+    println!("camada2 {}\n", camada2);
 
-    let choice: usize = match input.trim().parse::<usize>() {
-        Ok(n) if n >= 1 && n <= projects.len() => n,
-        _ => {
-            eprintln!("Opção inválida.");
-            return;
-        }
-    };
+    // forward com ReLU entre as camadas
+    let z1 = camada1.forward(&dataset.inputs); // X @ W1 + b1
+    let a1 = relu(&z1);                        // ReLU — zera negativos
+    let z2 = camada2.forward(&a1);             // a1 @ W2 + b2 — saída final
 
-    let project = &projects[choice - 1];
-    println!("\nExecutando {}...\n", project.name);
+    println!("z1 (antes do ReLU):\n{}", z1);
+    println!("a1 (depois do ReLU):\n{}", a1);
+    println!("previsões (saída final):\n{}", z2);
 
-    Command::new("cargo")
-        .args(["run", "-p", &project.name])
-        .current_dir(&workspace_root)
-        .status()
-        .unwrap();
+    let loss = mse(&z2, &dataset.targets);
+    println!("loss (MSE): {:.4}", loss);
+
+    let grad_z2 = mse_grad(&z2, &dataset.targets);
+    println!("\ngradiente da saída ∂L/∂z2 ({}×{}):\n{}", grad_z2.rows, grad_z2.cols, grad_z2);
+
+    let grads = backward(&dataset.inputs, &z1, &a1, &camada2.w, &grad_z2);
+    println!("∂L/∂W2 ({}×{}):\n{}", grads.grad_w2.rows, grads.grad_w2.cols, grads.grad_w2);
+    println!("∂L/∂b2: {:?}\n", grads.grad_b2);
+    println!("∂L/∂W1 ({}×{}):\n{}", grads.grad_w1.rows, grads.grad_w1.cols, grads.grad_w1);
+    println!("∂L/∂b1: {:?}", grads.grad_b1);
+
+    plots::plot_activations("output/03_activations.png");
 }

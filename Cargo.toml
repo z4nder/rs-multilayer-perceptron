@@ -2,5 +2,8 @@
 name = "rs-multilayer-perceptron"
 version = "0.1.0"
 edition = "2024"
+description = "Rede Neural (MLP) do zero em Rust — forward pass, ativações e backpropagation"
 
 [dependencies]
+plotters = "0.3"
+rand = "0.8"
