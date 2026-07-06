@@ -1,7 +1,7 @@
 # Por que camadas lineares sozinhas não funcionam e o que a ReLU resolve
 
 <p align="center">
-  <img src="" alt="banner do projeto" width="1000" />
+  <img src="../assets/banner_02.png" alt="Banner do post sobre ReLU, não linearidade e o colapso de camadas lineares em Rust" width="1000" />
 </p>
 
 No [post anterior](https://dev.to/z4nder/de-um-neuronio-para-uma-rede-matrizes-camadas-e-o-forward-pass-1ai8) montamos o forward pass com duas camadas lineares em sequência. A rede parece ter mais "profundidade" mas matematicamente ela não tem. Neste post vamos entender por que e o que a função de ativação resolve.
@@ -186,7 +186,7 @@ Sem ReLU o resultado era `[3.3, 4.4]`. Com ReLU é `[9.3, 5.4]`. O neurônio 2 f
 
 A forma mais direta de entender o que a ativação faz é olhando o gráfico de duas redes com a mesma arquitetura `(1 → 4 → 1)` e os mesmos pesos — a única diferença é a ReLU entre as camadas.
 
-![Sem ativação vs Com ReLU](../../../outputs/03_activations.png)
+![Sem ativação vs Com ReLU](../output/03_activations.png)
 
 À esquerda: **linha reta**, sempre — independente de quantas layers.
 
@@ -257,7 +257,7 @@ No próximo post: **backpropagation** como medir o erro e fazer a rede aprender 
 
 - [Código-fonte do projeto](https://github.com/z4nder/rs-multilayer-perceptron)
 - [Neural Network from Scratch — vídeo que inspirou essa série](https://www.youtube.com/watch?v=GkiITbgu0V0&t=477s)
-- [Post anterior — Matrizes, camadas e forward pass](https://dev.to/z4nder/ia-do-zero-de-um-neuronio-para-uma-rede-matrizes-camadas-e-o-forward-pass)
+- [Post anterior — Matrizes, camadas e forward pass](https://dev.to/z4nder/de-um-neuronio-para-uma-rede-matrizes-camadas-e-o-forward-pass-1ai8)
 
 ---
 
