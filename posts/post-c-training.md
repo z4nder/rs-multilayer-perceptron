@@ -1,7 +1,7 @@
 # Como ensinar uma rede neural a aprender com os próprios erros
 
 <p align="center">
-  <img src="" alt="banner do projeto" width="1000" />
+  <img src="../assets/banner_03.png" alt="Banner do post sobre loss, backpropagation e gradient descent em Rust" width="1000" />
 </p>
 
 No [post anterior](https://dev.to/z4nder/por-que-camadas-lineares-sozinhas-nao-funcionam-e-o-que-a-relu-resolve-5f00) construímos o forward pass completo com duas camadas e ativação podendo já gerar uma previsão, mas os pesos eram aleatórios e nunca mudavam. Neste post fechamos o loop: **loss, backpropagation e gradient descent**.
