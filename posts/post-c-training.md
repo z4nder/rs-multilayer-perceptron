@@ -210,11 +210,15 @@ O sinal de menos é o que faz o peso andar na direção que reduz o loss. O `lr`
 
 ### 7. O loop de treino <a name="7"></a>
 
-![Loop simples sem treino](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/simple_loop.svg)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/simple_loop.png" alt="Diagrama do fluxo simples sem treino, mostrando input, forward, previsão e MSE sem atualização dos pesos" width="820" />
+</p>
 
 Agora o loop fecha de verdade. Os valores abaixo são da epoch 0, antes de qualquer ajuste:
 
-![Loop completo de treino](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/complete_loop.svg)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/complete_loop.png" alt="Diagrama do loop completo de treino com forward, loss, backpropagation e atualização dos pesos" width="820" />
+</p>
 
 O loop completo por epoch:
 
@@ -241,7 +245,9 @@ Repete por N epochs. A cada iteração os pesos se aproximam dos valores que min
 
 #### O que o gráfico mostra
 
-![Loss ao longo do treino](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_loss.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_loss.png" alt="Gráfico da loss ao longo do treino mostrando queda rápida no início e convergência ao longo das epochs" width="900" />
+</p>
 
 **0–50 epochs:** queda brusca, os pesos saem do aleatório e encontram uma direção clara. O gradiente é grande porque o erro é enorme, os passos são grandes.
 
@@ -249,7 +255,9 @@ Repete por N epochs. A cada iteração os pesos se aproximam dos valores que min
 
 **300–1000 epochs:** estabilização, as oscilações somem e o loss converge suavemente. Com mais exemplos o gradiente vira uma média de mais pontos a cada epoch, o que suaviza o sinal e permite uma descida mais consistente.
 
-![Erros antes e depois](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_errors.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_errors.png" alt="Comparação dos erros antes e depois do treino, mostrando redução significativa após o ajuste dos pesos" width="900" />
+</p>
 
 O erro cai de ~54 e ~75 para ~4 e ~4
 
