@@ -210,14 +210,14 @@ O sinal de menos é o que faz o peso andar na direção que reduz o loss. O `lr`
 
 ### 7. O loop de treino <a name="7"></a>
 
-<p align="center">
+<p align="start">
   <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/simple_loop_a.png" alt="Diagrama do fluxo simples sem treino, mostrando input, forward, previsão e MSE sem atualização dos pesos" width="820" />
 </p>
 
 Agora o loop fecha de verdade. Os valores abaixo são da epoch 0, antes de qualquer ajuste:
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/compelte_loop_a.png" alt="Diagrama do loop completo de treino com forward, loss, backpropagation e atualização dos pesos" width="820" />
+<p align="start">
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/03/compelte_loop_a.png" alt="Diagrama do loop completo de treino com forward, loss, backpropagation e atualização dos pesos" width="300" />
 </p>
 
 O loop completo por epoch:
