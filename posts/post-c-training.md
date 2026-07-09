@@ -1,7 +1,7 @@
 # Como ensinar uma rede neural a aprender com os próprios erros
 
 <p align="center">
-  <img src="../assets/banner_03.png" alt="Banner do post sobre loss, backpropagation e gradient descent em Rust" width="1000" />
+  <img src="https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/assets/banner_03.png" alt="Banner do post sobre loss, backpropagation e gradient descent em Rust" width="1000" />
 </p>
 
 No [post anterior](https://dev.to/z4nder/por-que-camadas-lineares-sozinhas-nao-funcionam-e-o-que-a-relu-resolve-5f00) construímos o forward pass completo com duas camadas e ativação podendo já gerar uma previsão, mas os pesos eram aleatórios e nunca mudavam. Neste post fechamos o loop: **loss, backpropagation e gradient descent**.
@@ -258,7 +258,7 @@ Repete por N epochs. A cada iteração os pesos se aproximam dos valores que min
 
 #### O que o gráfico mostra
 
-![Loss ao longo do treino](../output/03_loss.png)
+![Loss ao longo do treino](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_loss.png)
 
 **0–50 epochs:** queda brusca, os pesos saem do aleatório e encontram uma direção clara. O gradiente é grande porque o erro é enorme, os passos são grandes.
 
@@ -266,7 +266,7 @@ Repete por N epochs. A cada iteração os pesos se aproximam dos valores que min
 
 **300–1000 epochs:** estabilização, as oscilações somem e o loss converge suavemente. Com mais exemplos o gradiente vira uma média de mais pontos a cada epoch, o que suaviza o sinal e permite uma descida mais consistente.
 
-![Erros antes e depois](../output/03_errors.png)
+![Erros antes e depois](https://raw.githubusercontent.com/z4nder/rs-multilayer-perceptron/main/output/03_errors.png)
 
 O erro cai de ~54 e ~75 para ~4 e ~4
 
@@ -298,7 +298,7 @@ Resolver isso pode ser o projeto seguinte **autograd**.
 
 - [Código-fonte do projeto](https://github.com/z4nder/rs-multilayer-perceptron)
 - [Neural Network from Scratch](https://www.youtube.com/watch?v=GkiITbgu0V0&t=477s)
-- [Post anterior — Por que camadas lineares sozinhas não funcionam](hhttps://dev.to/z4nder/por-que-camadas-lineares-sozinhas-nao-funcionam-e-o-que-a-relu-resolve-5f00)
+- [Post anterior — Por que camadas lineares sozinhas não funcionam](https://dev.to/z4nder/por-que-camadas-lineares-sozinhas-nao-funcionam-e-o-que-a-relu-resolve-5f00)
 
 ---
 
