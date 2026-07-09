@@ -8,3 +8,4 @@ Implementacao de uma rede neural multicamadas em Rust, evoluindo do neuronio sim
 | --- | --- |
 | Matrizes, layers e forward pass | [posts/post-a-matrix-layers.md](posts/post-a-matrix-layers.md) |
 | Por que camadas lineares sozinhas nao funcionam e o que a ReLU resolve | [posts/post-b-activations.md](posts/post-b-activations.md) |
+| Como ensinar uma rede neural a aprender com os proprios erros | [posts/post-c-training.md](posts/post-c-training.md) |

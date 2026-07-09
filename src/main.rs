@@ -12,8 +12,17 @@ use dataset::Dataset;
 use layer::Layer;
 use loss::{mse, mse_grad};
 use matrix::Matrix;
+use std::fs;
+
+const OUTPUT_DIR: &str = "output";
+
+fn output_path(file_name: &str) -> String {
+    format!("{OUTPUT_DIR}/{file_name}")
+}
 
 fn main() {
+    fs::create_dir_all(OUTPUT_DIR).expect("failed to create output directory");
+
     // Dataset: 10 exemplos, cada um com 3 features (energia, vento, ângulo)
     let dataset = Dataset::new(
         Matrix::new(
@@ -116,10 +125,20 @@ fn main() {
 
     let preds_after: Vec<f64> = (0..z2_final.rows).map(|i| z2_final.get(i, 0)).collect();
 
-    plots::plot_loss(&loss_history, "outputs/03_loss.png");
-    plots::plot_predictions(&preds_before, &preds_after, &dataset.targets, "outputs/03_predictions.png");
-    plots::plot_errors(&preds_before, &preds_after, &dataset.targets, "outputs/03_errors.png");
-    plots::plot_activations("outputs/03_activations.png");
+    plots::plot_loss(&loss_history, &output_path("03_loss.png"));
+    plots::plot_predictions(
+        &preds_before,
+        &preds_after,
+        &dataset.targets,
+        &output_path("03_predictions.png"),
+    );
+    plots::plot_errors(
+        &preds_before,
+        &preds_after,
+        &dataset.targets,
+        &output_path("03_errors.png"),
+    );
+    plots::plot_activations(&output_path("03_activations.png"));
 
     // curva aprendida: varre energia, mantém vento=70 e ângulo=0.275 fixos
     let predict = |energia: f64| {
@@ -134,5 +153,5 @@ fn main() {
         ( 8.0, 50.0), (18.0, 75.0), (12.0, 65.0), (22.0, 85.0),
         ( 5.0, 40.0), (28.0, 95.0),
     ];
-    plots::plot_fit(&predict, &examples, (0.0, 30.0), "outputs/03_fit.png");
+    plots::plot_fit(&predict, &examples, (0.0, 30.0), &output_path("03_fit.png"));
 }
